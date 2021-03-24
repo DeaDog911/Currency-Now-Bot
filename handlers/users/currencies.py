@@ -3,7 +3,15 @@ from aiogram.dispatcher.filters import Command
 
 from loader import dp
 from utils.dates import get_today
-from utils.get_currency import get_currency
+from utils.currency import get_currency, get_currencies_names
+
+
+@dp.message_handler(Command('all_currencies', prefixes='!/'))
+async def get_all_currencies(message: types.Message):
+    s = 'Все валюты, которые поддерживает бот: \n \n'
+    for currency in get_currencies_names():
+        s += f'{currency.get("Name")} - {currency.get("CharCode")} \n'
+    await message.answer(s)
 
 
 @dp.message_handler(Command('currency_usd', prefixes='!/'))
