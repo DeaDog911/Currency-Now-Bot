@@ -1,23 +1,20 @@
 version: '3.1'
 
 services:
-# Если хотите подключить базу данных
-#  db:
-# ВНИМАТЕЛЬНО! ВОТ ЭТО НАЗВАНИЕ СЕРВИСА - db - ДОЛЖНО БЫТЬ УКАЗАНО В БОТЕ КАК host В ПОДКЛЮЧЕНИИ К БАЗЕ ИЗ БОТА
-# ТО ЕСТЬ НЕ АЙПИШНИК И НЕ ЛОКАЛХОСТ, А db
-#    container_name: database
-#    image: sameersbn/postgresql:10-2
-#     env_file:
-#       - ".env"
-#    environment:
-#      PG_PASSWORD: $PGPASSWORD
-#    restart: always
-#    ports:
-#      - 5432:5432
-#    networks:
-#      - botnet
-#    volumes:
-#      - ./postgres:/var/lib/postgresql
+  db:
+    container_name: database
+    image: sameersbn/postgresql:10-2
+    env_file:
+       - ".env"
+    environment:
+      PG_PASSWORD: $DB_PASS
+    restart: always
+    ports:
+      - 5432:5432
+    networks:
+      - botnet
+    volumes:
+      - ./postgres:/var/lib/postgresql
   tgbot:
     container_name: currency_now_bot
     build:

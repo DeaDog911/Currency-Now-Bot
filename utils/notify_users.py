@@ -30,7 +30,7 @@ async def notify_users():
         if date.get("weekday") == notification.get('weekday') or notification.get('weekday') == 'all':
             if notification.get('time_hour') == date.get('hour') and notification.get('time_minutes') == date.get('minute'):
                 currency_char_code = notification.get('currency_char_code')
-                currency = get_currency(currency_char_code, date.get('day'), date.get('month'), date.get('year'))
+                currency = get_currency(currency_char_code, date.get('day'), int(date.get('month')), date.get('year'))
                 currency_val = currency.get("value")
                 currency_name = currency.get('name')
                 telegram_id = notification.get('telegram_id')

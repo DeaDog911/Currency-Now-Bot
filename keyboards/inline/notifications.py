@@ -56,28 +56,42 @@ days_keyboard = InlineKeyboardMarkup(
 )
 
 
-def get_hours_keyboard():
+def get_hours_keyboard(except_hours: list = None):
     hours_keyboard = InlineKeyboardMarkup(row_width=4)
     for i in range(24):
-        t = str(i)
-        t_int = i
-        if i < 10:
-            t = '0' + str(i)
-        button = InlineKeyboardButton(text=f'{t}:00', callback_data=f'time:hour:{t_int}')
+        if i not in except_hours:
+            t = str(i)
+            t_int = i
+            if i < 10:
+                t = '0' + str(i)
+            button = InlineKeyboardButton(text=f'❌ {t}:00', callback_data=f'set:hour:{t_int}')
+        else:
+            t = str(i)
+            t_int = i
+            if i < 10:
+                t = '0' + str(i)
+            button = InlineKeyboardButton(text=f'✅ {t}:00', callback_data=f'set:hour:{t_int}')
         hours_keyboard.insert(button)
     return hours_keyboard
 
 
-def get_minutes_keyboard(hour: int):
+def get_minutes_keyboard(hour: int, except_minutes: list = None):
     hour_str = str(hour)
     if hour < 10:
         hour_str = '0' + str(hour)
     minutes_keyboard = InlineKeyboardMarkup(row_width=5)
-    for i in range(0, 60, 1):
-        t_int = i
-        t = str(i)
-        if i < 10:
-            t = '0' + str(i)
-        button = InlineKeyboardButton(text=f'{hour_str}:{t}', callback_data=f'time:minute:{t_int}')
+    for i in range(0, 60, 5):
+        if i not in except_minutes:
+            t_int = i
+            t = str(i)
+            if i < 10:
+                t = '0' + str(i)
+            button = InlineKeyboardButton(text=f'❌ {hour_str}:{t}', callback_data=f'set:minute:{t_int}')
+        else:
+            t_int = i
+            t = str(i)
+            if i < 10:
+                t = '0' + str(i)
+            button = InlineKeyboardButton(text=f'✅ {hour_str}:{t}', callback_data=f'delete:minute:{t_int}')
         minutes_keyboard.insert(button)
     return minutes_keyboard

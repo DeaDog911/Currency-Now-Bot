@@ -81,8 +81,12 @@ class Database:
               "AND currency_char_code = $5"
         await self.execute(sql, time_minutes, telegram_id, time_hour, weekday, currency_char_code, execute=True)
 
-    async def delete_notification(self, id: int):
-        await self.execute("DELETE FROM Notifications WHERE id = $1", id, execute=True)
+    # async def delete_notification(self, id: int):
+    #     await self.execute("DELETE FROM Notifications WHERE id = $1", id, execute=True)
+
+    async def delete_notification(self, telegram_id: int, weekday: str, time_hour: int, time_minutes: int):
+        sql = 'DELETE FROM Notifications WHERE telegram_id = $1 AND weekday = $2 AND time_hour = $3 AND time_minutes = $4'
+        await self.execute(sql, telegram_id, weekday, time_hour, time_minutes, execute=True)
 
     async def delete_all_notifications(self):
         await self.execute("DELETE FROM Notifications WHERE TRUE", execute=True)

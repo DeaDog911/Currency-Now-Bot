@@ -2,8 +2,7 @@ from aiogram import types
 from aiogram.dispatcher.filters import Command
 
 from loader import dp
-from utils.dates import get_today
-from utils.currency import get_currency, get_currencies_names
+from utils.currency import get_currencies_names, get_rate
 
 
 @dp.message_handler(Command('all_currencies', prefixes='!/'))
@@ -44,15 +43,3 @@ async def get_currency_rate(message: types.Message):
     except IndexError:
         await message.answer('Укажите валюту - /currency aud [date]')
 
-
-async def get_rate(message, char_code, date=None):
-    if date is None:
-        day = get_today().get('day')
-        month = get_today().get('month')
-        year = get_today().get('year')
-    else:
-        day, month, year = date.split('.')
-    currency = get_currency(char_code, day, month, year)
-    value = currency.get('value')
-    name = currency.get('name')
-    await message.answer(f'Курс {name} на {day}.{month}.{year} - {value} руб')
